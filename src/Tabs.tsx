@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Tab } from './types/Tab';
 
 interface Props {
@@ -7,9 +7,13 @@ interface Props {
   selectedId?: string;
 }
 
-const Tabs: React.FC<Props> = ({ tabs, selectedId }) => {
+const Tabs: React.FC<Props> = ({ tabs, selectedId: propSelectedId }) => {
+  const location = useLocation();
+  const urlMatch = location.pathname.match(/^\/tabs\/([^/]+)/);
+  const selectedId = propSelectedId ?? (urlMatch ? urlMatch[1] : undefined);
+
   return (
-    <div className="tabs is-boxed">
+    <nav className="tabs is-boxed" aria-label="Primary">
       <ul>
         {tabs.map(tab => {
           const active = tab.id === selectedId;
@@ -20,12 +24,17 @@ const Tabs: React.FC<Props> = ({ tabs, selectedId }) => {
               data-cy="Tab"
               className={active ? 'is-active' : ''}
             >
-              <Link to={`/tabs/${tab.id}`}>{tab.title}</Link>
+              <Link
+                to={`/tabs/${tab.id}`}
+                className={active ? 'is-active' : ''}
+              >
+                {tab.title}
+              </Link>
             </li>
           );
         })}
       </ul>
-    </div>
+    </nav>
   );
 };
 

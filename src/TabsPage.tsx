@@ -11,7 +11,6 @@ const tabs: TabType[] = [
 
 const TabsPage: React.FC = () => {
   const { tabId } = useParams<{ tabId?: string }>();
-
   const selected = tabs.find(t => t.id === tabId);
 
   return (

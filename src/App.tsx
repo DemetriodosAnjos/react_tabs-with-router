@@ -26,18 +26,21 @@ export const App: React.FC = () => {
       >
         <div className="container">
           <div className="navbar-brand">
-            <Link
-              to="/"
-              className={`navbar-item ${isActive('/') ? 'is-active' : ''}`}
-            >
-              Home
-            </Link>
-            <Link
-              to="/tabs"
+            {/* Home: wrapper pai recebe a classe is-active */}
+            <div className={`navbar-item ${isActive('/') ? 'is-active' : ''}`}>
+              <Link to="/" className={isActive('/') ? 'is-active' : ''}>
+                Home
+              </Link>
+            </div>
+
+            {/* Tabs: wrapper pai recebe a classe is-active (abrange /tabs e /tabs/:tabId) */}
+            <div
               className={`navbar-item ${isActive('/tabs') ? 'is-active' : ''}`}
             >
-              Tabs
-            </Link>
+              <Link to="/tabs" className={isActive('/tabs') ? 'is-active' : ''}>
+                Tabs
+              </Link>
+            </div>
           </div>
         </div>
       </nav>
@@ -58,3 +61,5 @@ export const App: React.FC = () => {
     </>
   );
 };
+
+export default App;
