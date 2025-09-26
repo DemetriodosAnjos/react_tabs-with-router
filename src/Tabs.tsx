@@ -1,16 +1,16 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Tab } from './types/Tab';
 
 interface Props {
-  tabs: Tab[];
+  tabs?: Tab[]; // opcional
   selectedId?: string;
 }
 
-const Tabs: React.FC<Props> = ({ tabs, selectedId: propSelectedId }) => {
-  const location = useLocation();
-  const urlMatch = location.pathname.match(/^\/tabs\/([^/]+)/);
-  const selectedId = propSelectedId ?? (urlMatch ? urlMatch[1] : undefined);
+const Tabs: React.FC<Props> = ({ tabs = [], selectedId }) => {
+  if (!Array.isArray(tabs) || tabs.length === 0) {
+    return null; // ou <nav ...><ul/></nav> se preferir renderizar estrutura vazia
+  }
 
   return (
     <nav className="tabs is-boxed" aria-label="Primary">
@@ -24,12 +24,7 @@ const Tabs: React.FC<Props> = ({ tabs, selectedId: propSelectedId }) => {
               data-cy="Tab"
               className={active ? 'is-active' : ''}
             >
-              <Link
-                to={`/tabs/${tab.id}`}
-                className={active ? 'is-active' : ''}
-              >
-                {tab.title}
-              </Link>
+              <Link to={`/tabs/${tab.id}`}>{tab.title}</Link>
             </li>
           );
         })}
